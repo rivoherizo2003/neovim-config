@@ -15,6 +15,9 @@ return {
   },
   opts = {
     filesystem = {
+      filtered_items = {
+        visible = true, -- Show hidden items
+      },
       window = {
         mappings = {
           ['\\'] = 'close_window',
