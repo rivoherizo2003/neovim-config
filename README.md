@@ -231,3 +231,7 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
 ```
 </details>
 
+## install fonts and devicons
+- Install FiraCode and Nerd font.
+- Set in wsl profile font: FiraCode Nerd Font
+- Quit terminal
