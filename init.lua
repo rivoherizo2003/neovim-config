@@ -415,7 +415,20 @@ require('lazy').setup({
       --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
       --    function will be executed to configure the current buffer
       --
-
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = { 'php', 'blade' },
+        callback = function()
+          vim.lsp.start {
+            name = 'laravel-ls',
+            cmd = { '/home/codemdg/go/pkg/mod/github.com/laravel-ls/laravel-ls@v0.0.5/build/laravel-ls' },
+            -- if you want to recompile everytime
+            -- the language server is started.
+            -- Uncomment this line instead
+            -- cmd = { '/path/to/laravel-ls/start.sh' },
+            root_dir = vim.fn.getcwd(),
+          }
+        end,
+      })
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
