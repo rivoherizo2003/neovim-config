@@ -13,5 +13,4 @@ return {
       vim.api.nvim_set_keymap('n', '<leader>ts', ':TestSuite<CR>', { noremap = true, silent = true })
     end,
   },
-  { 'github/copilot.vim' },
 }
