@@ -40,7 +40,7 @@ return {
         php = { 'pint' },
         -- php = { 'php_cs_fixer' },
         blade = { 'blade-formatter' },
-        xml = { 'xmlformater' },
+        xml = { 'xmlformat' },
       },
       formatters = {
         pint = {
