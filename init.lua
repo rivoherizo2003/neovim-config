@@ -351,6 +351,15 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
+
+      -- search all (include ignored files)
+      vim.keymap.set('n', '<leader>sa', function()
+        builtin.find_files {
+          hidden = true, -- Include hidden files (like .git, .env)
+          no_ignore = true, -- **Crucial**: Ignores .gitignore/ignore files (includes vendor)
+          prompt_title = 'Search [A]ll Files (including vendor)',
+        }
+      end, { desc = '[S]earch [A]ll Files' })
     end,
   },
 
@@ -580,7 +589,6 @@ require('lazy').setup({
       --    :Mason
       --
       --  You can press `g?` for help in this menu.
-      require('mason').setup()
 
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
@@ -601,16 +609,14 @@ require('lazy').setup({
             require('lspconfig')[server_name].setup(server)
           end,
           jdtls = function()
-            require('java').setup {
-              -- Your custom jdtls settings goes here
-            }
-
-            require('lspconfig').jdtls.setup {
-              -- Your custom nvim-java configuration goes here
-            }
+            require('java').setup {}
+            local server = servers['jdtls'] or {}
+            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+            require('lspconfig')['jdtls'].setup(server)
           end,
         },
       }
+      require('mason').setup()
     end,
   },
 
@@ -634,12 +640,12 @@ require('lazy').setup({
           -- `friendly-snippets` contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
           --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
         },
       },
       'saadparwaiz1/cmp_luasnip',
@@ -794,7 +800,23 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'java', 'php', 'blade' },
+      ensure_installed = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'java',
+        'php',
+        'blade',
+        'css',
+      },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {

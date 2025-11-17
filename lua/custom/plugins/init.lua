@@ -4,7 +4,7 @@
 -- See the kickstart.nvim README for more information
 return {
   { 'mfussenegger/nvim-dap' },
-  { 'nvim-java/nvim-java' },
+  { 'mfussenegger/nvim-jdtls' },
   {
     'vim-test/vim-test',
     config = function()
